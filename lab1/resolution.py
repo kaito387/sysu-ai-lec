@@ -385,8 +385,13 @@ def resolutionProp(clauses_input: List[str], max_steps: int = 500) -> List[str]:
         generated_any = False
         step_guard += 1
         n = len(clauses)
-        for i in range(n):
-            for j in range(i + 1, n):
+
+        order = sorted(range(n), key=lambda i: len(clauses[i]))
+
+        for i in order:
+            for j in order:
+                if i == j:
+                    continue
                 c1 = standardize_apart(clauses[i], i + 1)
                 c2 = standardize_apart(clauses[j], j + 1)
                 for p, l1 in enumerate(c1):
@@ -398,7 +403,6 @@ def resolutionProp(clauses_input: List[str], max_steps: int = 500) -> List[str]:
                         rem2 = [x for k, x in enumerate(c2) if k != q]
                         resolvent = apply_subst_clause(tuple(rem1 + rem2), s)
 
-                        # 将标准化变量名还原为通用 x/y/z 风格前缀变量展示, 为了输出可读
                         pretty_res = tuple(
                             Literal(
                                 lit.neg,
@@ -421,6 +425,7 @@ def resolutionProp(clauses_input: List[str], max_steps: int = 500) -> List[str]:
                         clauses.append(pretty_res)
                         clause_to_id[pretty_res] = new_id
                         generated_any = True
+                        order = sorted(range(n), key=lambda i: len(clauses[i]))
 
                         src1 = f"{i+1}{alpha(p)}"
                         src2 = f"{j+1}{alpha(q)}"
@@ -437,72 +442,75 @@ def resolutionProp(clauses_input: List[str], max_steps: int = 500) -> List[str]:
         print(line)
     return steps
 
+kb1 = [
+    "(P(x),Q(g(x)))",
+    "(R(a),Q(z),~P(a))",
+    "(~Q(g(a)))",
+    "(~R(a))",
+]
+kb2 = [
+    "(Student(tony))",
+    "(~Student(x),Smart(x))",
+    "(~Smart(tony))",
+]
+kb3 = [
+    "(A(x),B(x))",
+    "(~A(a))",
+    "(~B(a))",
+]
+kb4 = [
+    "(FirstGrade)",
+    "(~FirstGrade,Child)",
+    "(~Child)",
+]
+kb5 = [
+    "GradStudent(sue)",
+    "(~GradStudent(x), Student(x))",
+    "(~Student(x), HardWorker(x))",
+    "~HardWorker(sue)"
+]
+kb6 = [
+    "A(tony)",
+    "A(mike)",
+    "A(john)",
+    "L(tony, rain)",
+    "(~A(x), S(x), C(x))",
+    "(~C(y), ~L(y, rain))",
+    "(L(z, snow), ~S(z))",
+    "(~L(tony, u), ~L(mike, u))",
+    "~(L(tony, v), L(mike, v))",
+    "(~A(w), ~C(w), S(w))"
+]
+kb7 = [
+    "On(tony, mike)",
+    "On(mike, john)",
+    "Green(tony)",
+    "~Green(john)",
+    "(~On(xx, yy), ~Green(xx), Green(yy))"
+]
 
 if __name__ == "__main__":
+    resolutionProp(kb7)
+    """
     print("=== Problem 1 ===")
-    kb1 = [
-        "(P(x),Q(g(x)))",
-        "(R(a),Q(z),~P(a))",
-        "(~Q(g(a)))",
-        "(~R(a))",
-    ]
     resolutionProp(kb1)
 
     print("\n=== Problem 2 ===")
-    kb2 = [
-        "(Student(tony))",
-        "(~Student(x),Smart(x))",
-        "(~Smart(tony))",
-    ]
     resolutionProp(kb2)
 
     print("\n=== Problem 3 ===")
-    kb3 = [
-        "(A(x),B(x))",
-        "(~A(a))",
-        "(~B(a))",
-    ]
     resolutionProp(kb3)
     
     print("\n=== Problem 4 ===")
-    kb4 = [
-        "(FirstGrade)",
-        "(~FirstGrade,Child)",
-        "(~Child)",
-    ]
     resolutionProp(kb4)
 
 
     print("\n=== Problem 5 ===")
-    kb5 = [
-        "GradStudent(sue)",
-        "(~GradStudent(x), Student(x))",
-        "(~Student(x), HardWorker(x))",
-        "~HardWorker(sue)"
-    ]
     resolutionProp(kb5)
 
     print("\n=== Problem 6 ===")
-    kb6 = [
-        "A(tony)",
-        "A(mike)",
-        "A(john)",
-        "L(tony, rain)",
-        "(~A(x), S(x), C(x))",
-        "(~C(y), ~L(y, rain))",
-        "(L(z, snow), ~S(z))",
-        "(~L(tony, u), ~L(mike, u))",
-        "~(L(tony, v), L(mike, v))",
-        "(~A(w), ~C(w), S(w))"
-    ]
     resolutionProp(kb6)
 
     print("\n=== Problem 7 ===")
-    kb7 = [
-        "On(tony, mike)",
-        "On(mike, john)",
-        "Green(tony)",
-        "~Green(john)",
-        "(~On(xx, yy), ~Green(xx), Green(yy))"
-    ]
     resolutionProp(kb7)
+    """
