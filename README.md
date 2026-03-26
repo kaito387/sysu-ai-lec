@@ -1,0 +1,4 @@
+- [pandoc-template.yaml](./pandoc-template.yaml) markdown to pdf 的 pandoc 配置文件
+- [template.md](./template.md) 实验报告模板
+- [md2pdf.sh](./md2pdf.sh) 快捷 md2pdf
+- [lab\*](./lab*/) lab 文件

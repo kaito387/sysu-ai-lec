@@ -1,0 +1,43 @@
+# Pandoc 配置文件
+# 使用方法: pandoc report.md -o report.pdf --pdf-engine=xelatex --metadata-file=pandoc-template.yaml
+
+# 文档设置
+documentclass: article
+papersize: a4
+fontsize: 12pt
+
+# 中文字体（关键配置）
+CJKmainfont: "Noto Sans CJK SC"
+
+# 页边距
+geometry:
+  - margin=2.5cm
+
+# 代码高亮主题
+highlight-style: tango
+
+# 目录
+toc: false
+toc-depth: 3
+
+# 链接颜色
+linkcolor: blue
+urlcolor: blue
+
+# 行距
+linestretch: 1.5
+
+numersections: true
+
+# 封面样式配置
+header-includes: |
+  \usepackage{titling}
+  \usepackage{setspace}
+  \usepackage{etoolbox}
+  \AtBeginEnvironment{Highlighting}{\setstretch{1.0}}
+  \pretitle{\begin{center}\LARGE\bfseries}
+  \posttitle{\par\end{center}\vskip 0.5em}
+  \preauthor{\begin{center}\large\begin{tabular}[t]{c}}
+  \postauthor{\end{tabular}\par\end{center}}
+  \predate{\begin{center}\large}
+  \postdate{\par\end{center}\vskip 1em}
