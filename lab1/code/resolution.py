@@ -490,8 +490,6 @@ kb7 = [
 ]
 
 if __name__ == "__main__":
-    resolutionProp(kb7)
-    """
     print("=== Problem 1 ===")
     resolutionProp(kb1)
 
@@ -513,4 +511,4 @@ if __name__ == "__main__":
 
     print("\n=== Problem 7 ===")
     resolutionProp(kb7)
-    """
+    
