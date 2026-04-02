@@ -1,0 +1,10 @@
+# AI Lab 2 Requirements
+
+# No external dependencies required
+# All implementations use Python standard library only
+
+# Python version: 3.8+
+
+# Optional (for visualization, not required):
+# matplotlib>=3.5.0
+# numpy>=1.21.0
