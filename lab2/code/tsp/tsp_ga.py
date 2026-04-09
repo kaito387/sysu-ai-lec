@@ -250,28 +250,43 @@ def run_on_file_dataset():
     # datasets = ["dj38.tsp"]
     settings = {
         "dj38.tsp": {"population": 2000, "elite_size": 20, "mutation_rate": 0.3, "tournament_size": 8, "generations": 301},
-        "qa194.tsp": {"population": 2000, "elite_size": 30, "mutation_rate": 0.3, "tournament_size": 10, "generations": 2001}
+        "qa194.tsp": {"population": 2000, "elite_size": 20, "mutation_rate": 0.3, "tournament_size": 15, "generations": 1001}
     }
     
     for path in datasets:
         print(f"\n\n--- Running on {path} ---")
         dataset = load_file_dataset(path)
         
-        ga = GeneticAlgorithmTSP(
-            dataset=dataset,
-            population_size=settings[path]["population"],
-            elite_size=settings[path]["elite_size"],
-            mutation_rate=settings[path]["mutation_rate"],
-            tournament_size=settings[path]["tournament_size"]
-        )
+        runs = 5
+        solutions = []
+        for run in range(runs):
+            random.seed(114514 + 42 * run)  # For reproducibility
+            print(f"Run {run + 1}/{runs}, seed = {114514 + 42 * run}")
+            ga = GeneticAlgorithmTSP(
+                dataset=dataset,
+                population_size=settings[path]["population"],
+                elite_size=settings[path]["elite_size"],
+                mutation_rate=settings[path]["mutation_rate"],
+                tournament_size=settings[path]["tournament_size"]
+            )
         
-        start_time = time.time()
-        best_solution, best_fitness = ga.evolve(generations=settings[path]["generations"], verbose=True)
-        end_time = time.time()
+            start_time = time.time()
+            best_solution, best_fitness = ga.evolve(generations=settings[path]["generations"], verbose=True)
+            end_time = time.time()
         
-        print(f"\nBest solution: {best_solution}")
-        print(f"Best fitness: {best_fitness:.2f}")
-        print(f"Time: {end_time - start_time:.2f}s")
+            print(f"\nBest solution: {best_solution}")
+            print(f"Best fitness: {best_fitness:.2f}")
+            print(f"Time: {end_time - start_time:.2f}s")
+
+            solutions.append((best_solution, best_fitness))
+        
+        # Print summary of runs
+        print(f"\nSummary for {path}:")
+        for i, (sol, fit) in enumerate(solutions):
+            print(f"Run {i + 1}: Best fitness = {fit:.2f}")
+        algo_best = min(solutions, key=lambda x: x[1])
+        print(f"Best solution across runs: {algo_best[0]}")
+        print(f"Best fitness {algo_best[1]:.2f}")
 
 if __name__ == "__main__":
     test_genetic_algorithm()
