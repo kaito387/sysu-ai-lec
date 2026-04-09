@@ -54,9 +54,9 @@ class TSPExperiment:
     
     def run_multiple_trials(self, 
                           n_trials: int = 5,
-                          population_size: int = 100,
+                          population_size: int = 200,
                           elite_size: int = 20,
-                          mutation_rate: float = 0.02,
+                          mutation_rate: float = 0.05,
                           generations: int = 200) -> Dict:
         """Run multiple trials with different random seeds"""
         
@@ -126,7 +126,7 @@ class TSPExperiment:
         
         # Test different mutation rates
         print("\n--- Effect of Mutation Rate ---")
-        for mut_rate in [0.01, 0.02, 0.05, 0.10]:
+        for mut_rate in [0.01, 0.02, 0.05, 0.10, 0.2]:
             result = self.run_single_experiment(
                 population_size=100,
                 elite_size=20,
@@ -138,7 +138,7 @@ class TSPExperiment:
         
         # Test different elite sizes
         print("\n--- Effect of Elite Size ---")
-        for elite in [10, 20, 30, 40]:
+        for elite in [10, 20, 30, 40, 50]:
             result = self.run_single_experiment(
                 population_size=100,
                 elite_size=elite,
@@ -161,8 +161,9 @@ def main():
     print("1. Random 15-city dataset")
     print("2. Burma14 (14 cities)")
     print("3. Ulysses16 (16 cities)")
+    print("4. Ulysses22 (22 cities)")
     
-    choice = input("\nSelect dataset (1-3) or Enter for default: ").strip()
+    choice = input("\nSelect dataset (1-4) or Enter for default: ").strip()
     
     if choice == '1':
         dataset = create_sample_dataset(15)
@@ -173,6 +174,9 @@ def main():
     elif choice == '3':
         dataset = load_sample_dataset("ulysses16")
         print(f"\nUsing Ulysses16 dataset")
+    elif choice == '4':
+        dataset = load_sample_dataset("ulysses22")
+        print(f"\nUsing Ulysses22 dataset")
     else:
         dataset = create_sample_dataset(10)
         print(f"\nUsing default random 10-city dataset")
@@ -206,10 +210,10 @@ def main():
     
     print("\nRunning with optimized parameters...")
     best_result = experiment.run_single_experiment(
-        population_size=150,
-        elite_size=30,
-        mutation_rate=0.02,
-        generations=500,
+        population_size=200,
+        elite_size=50,
+        mutation_rate=0.2,
+        generations=301,
         seed=42,
         verbose=True
     )
@@ -220,9 +224,9 @@ def main():
     print(f"  Time: {best_result['time']:.2f}s")
     
     # Show convergence
-    print("\nConvergence (every 50 generations):")
+    print("\nConvergence (every 100 generations):")
     history = best_result['history']
-    for i in range(0, len(history), 50):
+    for i in range(0, len(history), 100):
         h = history[i]
         print(f"  Gen {h['generation']:3d}: Best={h['best']:.2f}, Avg={h['average']:.2f}")
 

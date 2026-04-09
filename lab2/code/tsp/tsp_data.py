@@ -146,6 +146,7 @@ def create_sample_dataset(n_cities: int = 10) -> TSPDataset:
 
 # Sample TSP datasets (small ones for testing)
 SAMPLE_TSP_DATA = {
+    # OPT 3323
     "burma14": """NAME: burma14
 TYPE: TSP
 COMMENT: 14-Staedte in Burma (Zaw Win)
@@ -168,7 +169,7 @@ NODE_COORD_SECTION
 14 20.09 94.55
 EOF
 """,
-    
+    # OPT 6859
     "ulysses16": """NAME: ulysses16.tsp
 TYPE: TSP
 COMMENT: Odyssey of Ulysses (Groetschel/Padberg)
@@ -192,6 +193,38 @@ NODE_COORD_SECTION
 15 35.49 14.32
 16 39.36 19.56
 EOF
+""",
+    # OPT 7013
+    "ulysses22": """NAME: ulysses22.tsp
+TYPE: TSP
+COMMENT: Odyssey of Ulysses (Groetschel/Padberg)
+DIMENSION: 22
+EDGE_WEIGHT_TYPE: GEO
+DISPLAY_DATA_TYPE: COORD_DISPLAY
+NODE_COORD_SECTION
+1 38.24 20.42
+2 39.57 26.15
+3 40.56 25.32
+4 36.26 23.12
+5 33.48 10.54
+6 37.56 12.19
+7 38.42 13.11
+8 37.52 20.44
+9 41.23 9.10
+10 41.17 13.05
+11 36.08 -5.21
+12 38.47 15.13
+13 38.15 15.35
+14 37.51 15.17
+15 35.49 14.32
+16 39.36 19.56
+17 38.09 24.36
+18 36.09 23.00
+19 40.44 13.57
+20 40.33 14.15
+21 40.37 14.23
+22 37.57 22.56
+EOF
 """
 }
 
@@ -205,6 +238,11 @@ def load_sample_dataset(name: str) -> TSPDataset:
     else:
         raise ValueError(f"Unknown dataset: {name}")
 
+def load_file_dataset(filename: str) -> TSPDataset:
+    """Load dataset from file"""
+    dataset = TSPDataset()
+    dataset.load_from_file(filename)
+    return dataset
 
 if __name__ == "__main__":
     # Test dataset loading

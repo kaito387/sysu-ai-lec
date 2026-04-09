@@ -153,7 +153,7 @@ class GeneticAlgorithmTSP:
                 'worst': fitness_scores[-1][1]
             })
             
-            if verbose and generation % 10 == 0:
+            if verbose and generation % 200 == 0:
                 print(f"Generation {generation}: Best={self.best_fitness:.2f}, Avg={avg_fitness:.2f}")
             
             # Create next generation
@@ -239,8 +239,40 @@ def test_genetic_algorithm():
     print(f"\nBest solution: {best_solution2}")
     print(f"Best fitness: {best_fitness2:.2f}")
     print(f"Time: {end_time - start_time:.2f}s")
-    print(f"\nNote: Optimal tour length for Burma14 is 30.87 (known)")
+    print(f"\nNote: Optimal tour length for Burma14 is 3323 (known)")
 
+def run_on_file_dataset():
+    """Run GA on file-based datasets"""
+    from tsp_data import load_file_dataset
+    
+    # datasets = ["dj38.tsp", "qa194.tsp"]
+    datasets = ["qa194.tsp"]
+    # datasets = ["dj38.tsp"]
+    settings = {
+        "dj38.tsp": {"population": 2000, "elite_size": 20, "mutation_rate": 0.3, "tournament_size": 8, "generations": 301},
+        "qa194.tsp": {"population": 2000, "elite_size": 30, "mutation_rate": 0.3, "tournament_size": 10, "generations": 2001}
+    }
+    
+    for path in datasets:
+        print(f"\n\n--- Running on {path} ---")
+        dataset = load_file_dataset(path)
+        
+        ga = GeneticAlgorithmTSP(
+            dataset=dataset,
+            population_size=settings[path]["population"],
+            elite_size=settings[path]["elite_size"],
+            mutation_rate=settings[path]["mutation_rate"],
+            tournament_size=settings[path]["tournament_size"]
+        )
+        
+        start_time = time.time()
+        best_solution, best_fitness = ga.evolve(generations=settings[path]["generations"], verbose=True)
+        end_time = time.time()
+        
+        print(f"\nBest solution: {best_solution}")
+        print(f"Best fitness: {best_fitness:.2f}")
+        print(f"Time: {end_time - start_time:.2f}s")
 
 if __name__ == "__main__":
     test_genetic_algorithm()
+    run_on_file_dataset()

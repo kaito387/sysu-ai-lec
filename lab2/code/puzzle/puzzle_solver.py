@@ -110,6 +110,7 @@ def misplaced_tiles(state: PuzzleState, goal: PuzzleState) -> int:
 def linear_conflict(state: PuzzleState, goal: PuzzleState) -> int:
     """Manhattan distance + linear conflict heuristic"""
     md = manhattan_distance(state, goal)
+    # conflict means two tiles are in the same row/column and both are in their goal row/column but reversed order, which adds 2 moves to resolve
     
     # Add linear conflicts
     conflicts = 0
