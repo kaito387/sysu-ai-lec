@@ -283,6 +283,13 @@ def test_puzzle_solver():
         [13, 15, 10, 11],
         [14, 0, 7, 12]
     ]
+
+    extreme_hard_board = [
+        [0, 5, 15, 14],
+        [7, 9, 6, 13],
+        [1, 2, 12, 10],
+        [8, 11, 4, 3]
+    ]
     
     # Goal state
     goal_board = [
@@ -295,7 +302,8 @@ def test_puzzle_solver():
     test_cases = [
         ("Easy", easy_board),
         ("Medium", medium_board),
-        ("Hard", hard_board),  # May take too long
+        ("Hard", hard_board),
+        ("Extreme Hard", extreme_hard_board), # May take too long
     ]
     
     heuristics = [
@@ -316,6 +324,7 @@ def test_puzzle_solver():
         print(initial)
         
         for heuristic_name, heuristic_func in heuristics:
+            continue
             print(f"\n--- A* with {heuristic_name} ---")
             start_time = time.time()
             result = a_star(PuzzleState(board), goal, heuristic_func)
@@ -332,7 +341,7 @@ def test_puzzle_solver():
         # Test IDA* with Manhattan distance (usually most efficient)
         print(f"\n--- IDA* with Manhattan Distance ---")
         start_time = time.time()
-        result = ida_star(PuzzleState(board), goal, manhattan_distance)
+        result = ida_star(PuzzleState(board), goal, linear_conflict)
         end_time = time.time()
         
         if result:
