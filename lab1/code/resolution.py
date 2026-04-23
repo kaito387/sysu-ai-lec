@@ -488,27 +488,18 @@ kb7 = [
     "~Green(john)",
     "(~On(xx, yy), ~Green(xx), Green(yy))"
 ]
+kb8 = [
+    "Honest(a)",
+    "(~Influential(x), Know(x, b))",
+    "(~Know(x, y), Friend(x, y), ~Honest(x), ~Honest(y))",
+    "(~Friend(x, y), Trust(x, y))",
+    "Influential(a)",
+    "~Trust(a, b)",
+    "Honest(b)",
+    "(~Trust(x, y), Trust(y, x))",
+    "(~Friend(x, y), Friend(y, x))",
+]
 
 if __name__ == "__main__":
-    print("=== Problem 1 ===")
-    resolutionProp(kb1)
-
-    print("\n=== Problem 2 ===")
-    resolutionProp(kb2)
-
-    print("\n=== Problem 3 ===")
-    resolutionProp(kb3)
-    
-    print("\n=== Problem 4 ===")
-    resolutionProp(kb4)
-
-
-    print("\n=== Problem 5 ===")
-    resolutionProp(kb5)
-
-    print("\n=== Problem 6 ===")
-    resolutionProp(kb6)
-
-    print("\n=== Problem 7 ===")
-    resolutionProp(kb7)
-    
+    print("=== solve ===")
+    resolutionProp(kb8)
